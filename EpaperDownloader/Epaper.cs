@@ -41,7 +41,11 @@ namespace EpaperDownloader
 
         public DateTime IssueDate { get; set; }
         public string DownloadPath { get; set; }
-        public string DownloadMsg { get; set; }
+        public static string DownloadMsg { get; set; }
+        public List<string> DownloadLink { get; set; }
+        public bool IsIssueDateValid { get; set; }
+        public string PathWithFileName { get; set; }
+        public string InvalidDateMsg { get; set; }
 
         // constructor
         public Epaper(string paperName, DateTime issue, string path)
@@ -56,7 +60,7 @@ namespace EpaperDownloader
         }
 
         // checks the paper name and calls the respective download function
-        public void DownloadPaper()
+        public void PaperDownloadInfo()
         {
             switch (PaperName)
             {
@@ -65,28 +69,27 @@ namespace EpaperDownloader
                 case "saptahik":
                 case "nepal":
                 case "nari":
-                    DownloadKantipurNetwork();
+                    KantipurNetworkInfo();
                     break;
             }
         }
 
-        public void DownloadKantipurNetwork()
+        public void KantipurNetworkInfo()
         {
             // check for the validity of input date for weekly and monthly papers and bi-monthly papers
-            bool isIssueDateValid = true; 
-
+            IsIssueDateValid = true;
             // saptahik is published weekly on friday
             if (PaperName == "saptahik" && IssueDate.DayOfWeek != DayOfWeek.Friday)
             {
-                DownloadMsg = "Please Enter a valid Date! \n Saptahik is only Published on Friday!!";
-                isIssueDateValid = false;
+                InvalidDateMsg = "Please Enter a valid Date! \n Saptahik is only Published on Friday!!";
+                IsIssueDateValid = false;
             }
 
             // nepal is published weekly on Sunday
             if (PaperName == "nepal" && IssueDate.DayOfWeek != DayOfWeek.Sunday)
             {
-                DownloadMsg = "Please Enter a valid Date! \n Nepal is only Published on Sunday!!";
-                isIssueDateValid = false;
+                InvalidDateMsg = "Please Enter a valid Date! \n Nepal is only Published on Sunday!!";
+                IsIssueDateValid = false;
             }
 
 
@@ -100,13 +103,13 @@ namespace EpaperDownloader
 
             // Download link of ekantipur example
             // http://epaper.ekantipur.com/epaper/kantipur/2017-05-26/2017-05-26.pdf
-            string downloadLink = "http://epaper.ekantipur.com/epaper/" + PaperName + "/" + year + "-" + month + "-" + day + "/" + year + "-" + month + "-" + day + ".pdf";
-            Uri downloadUri = new Uri(downloadLink);
+            string downloadLink = "http://epaper.ekantipur.com/epaper/" + PaperName + "/" + _year + "-" + _month + "-" + _day + "/" + _year + "-" + _month + "-" + _day + ".pdf";
+            //Uri downloadUri = new Uri(downloadLink);
+            DownloadLink = new List<string>() { downloadLink };
 
-
-            string pathWithFileName = DownloadPath + "\\" + PaperName + "-" + year + "-" + month + "-" + day + ".pdf";
-
-            if (isIssueDateValid) Downloader.Download(downloadUri, pathWithFileName);
+            string pathWithFileName = DownloadPath + "\\" + PaperName + "-" + _year + "-" + _month + "-" + _day + ".pdf";
+            PathWithFileName = pathWithFileName;
+            //if (isIssueDateValid) Downloader.Download(downloadUri, pathWithFileName);
         }
 
     }
