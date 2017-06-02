@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EpaperDownloader"
         mc:Ignorable="d"
-        Title="Nepali ePaper Downloader" Height="500" Width="400">
+        Title="Nepali ePaper Downloader" Height="520" Width="400">
 
     <Border Padding="20">
         
@@ -47,7 +47,10 @@
             <Button x:Name="ePaperDlButton" Click="ePaperDlButton_Click" Content="Download" Margin="30,30,30,10" Height="30" />
             
             <!--Progress Bar-->
-            <ProgressBar x:Name="downloadProgressBar" Height="30" Margin="30,30,30,10" />
+            <ProgressBar x:Name="downloadProgressBar" Height="30" Margin="30,30,30,10" ValueChanged="downloadProgressBar_ValueChanged" />
+            
+            <!-- Download Informatio Label -->
+            <Label x:Name="downloadInfoLabel"  Background="CadetBlue" Foreground="WhiteSmoke" Height="30" FontWeight="Bold" Padding="5" Margin="30,10,30,10"/>
         </StackPanel>
         
     </Border>
