@@ -14,6 +14,7 @@ namespace EpaperDownloader
     {
         public WebClient downloader;
         private Epaper epaper;
+        // this field holds a copy of DownloadAndFileName List property 
         private List<Dictionary<string, string>> _dlLinkAndFileName;
 
 
@@ -72,7 +73,11 @@ namespace EpaperDownloader
             epaper = new Epaper(ePaperName, ePaperDate, downloadDir);
             // checks for the validity of input date, sets the download Link based on the paper chosen
             epaper.PaperDownloadInfo();
-            _dlLinkAndFileName = epaper.DownloadLinkAndFileName;
+
+            // clone the ePaper.DownloadLinkAndFileName property List
+            // _dlLinkAndFileName will be chnaged but we want to save the original DownloadLinkAndFileName as well
+            // hence the copy instead of assignment
+            _dlLinkAndFileName = new List<Dictionary<string,string>>(epaper.DownloadLinkAndFileName);
 
             if (epaper.IsIssueDateValid)
             {
@@ -117,11 +122,23 @@ namespace EpaperDownloader
                 // once the first item in the download list is downloaded
                 // download the other links in the list
                 _dlLinkAndFileName.RemoveAt(0);
+
                 if (_dlLinkAndFileName.Count > 0)
                 //{ downloader.DownloadFileAsync(new Uri(epaper.DownloadLink[0]), epaper.PathWithFileName+"-"+epaper.DownloadLink.Count+".jpg"); }
                 { downloader.DownloadFileAsync(new Uri(_dlLinkAndFileName[0]["dlLink"]), _dlLinkAndFileName[0]["filePathName"]); }
                 else
                 {
+                    if (epaper.PaperName == "nagarik")
+                    {
+                        List<string> imagePathAndFileName = new List<string>();
+                        //downloadInfoLabel.Content = "Please Wait!! Generating pdf.";
+                        foreach (Dictionary<string, string> linkNpath in epaper.DownloadLinkAndFileName)
+                        {
+                            imagePathAndFileName.Add(linkNpath["filePathName"]);
+                        }
+                        ImagesToPdf imagesToPdf = new ImagesToPdf(imagePathAndFileName, epaper);
+                        imagesToPdf.GeneratePdf();
+                    }
                     MessageBox.Show("Download completed. \nCheck " + epaper.DownloadPath + "to view the paper.");
                     // TODO once download is completed, convert images to pdf for those required newspaper
                     // change the label below the progress bar to generating pdf
