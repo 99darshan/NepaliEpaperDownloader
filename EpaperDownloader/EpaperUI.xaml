@@ -20,9 +20,11 @@
                 <ComboBoxItem>Kantipur</ComboBoxItem>
                 <ComboBoxItem>The Kathmandu Post</ComboBoxItem>
                 <ComboBoxItem>Nagarik</ComboBoxItem>
+                <ComboBoxItem>Republica</ComboBoxItem>
                 <ComboBoxItem>The Annapurna Post</ComboBoxItem>
                 <ComboBoxItem>Saptahik</ComboBoxItem>
                 <ComboBoxItem>Nepal</ComboBoxItem>
+                <ComboBoxItem>Shukrabar</ComboBoxItem>
             </ComboBox>
 
 

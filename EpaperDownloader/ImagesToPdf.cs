@@ -52,12 +52,13 @@ namespace EpaperDownloader
                 // scale and add image to the pdf doc
                 if (image.Height > maxHeight || image.Width > maxWidth) image.ScaleToFit(maxWidth, maxHeight);
                 doc.Add(image);
-                // once the image is added to the doc, remove the image from the directory
-                // to save disk space, can be ommitted as well
-                File.Delete(imageFileName);
+
                 imageStream.Close();
             }
             doc.Close();
+
+            // TODO delete all the images from the dir once the pdf is created 
+            // saves up the disk space
         }
     }
 }

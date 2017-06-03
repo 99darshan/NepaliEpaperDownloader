@@ -74,13 +74,13 @@ namespace EpaperDownloader
             // checks for the validity of input date, sets the download Link based on the paper chosen
             epaper.PaperDownloadInfo();
 
-            // clone the ePaper.DownloadLinkAndFileName property List
-            // _dlLinkAndFileName will be chnaged but we want to save the original DownloadLinkAndFileName as well
-            // hence the copy instead of assignment
-            _dlLinkAndFileName = new List<Dictionary<string,string>>(epaper.DownloadLinkAndFileName);
 
             if (epaper.IsIssueDateValid)
             {
+                // clone the ePaper.DownloadLinkAndFileName property List
+                // _dlLinkAndFileName will be chnaged but we want to save the original DownloadLinkAndFileName as well
+                // hence the copy instead of assignment
+                _dlLinkAndFileName = new List<Dictionary<string, string>>(epaper.DownloadLinkAndFileName);
                 //System.Threading.Thread thread = new System.Threading.Thread(() =>
                 //{
                 //    downloader.DownloadFileAsync(new Uri(url), epaper.PathWithFileName);
@@ -92,16 +92,17 @@ namespace EpaperDownloader
                 // in onDownloadComplete Event Handler
                 // since webclient doesn't support concurrent I/O operations a loop is not used to download multiple files
                 // instead it is downloaded one after another upon download complete
-                downloader.DownloadFileAsync(new Uri(_dlLinkAndFileName[0]["dlLink"]), _dlLinkAndFileName[0]["filePathName"]);
-                // deactivate the download button to prevent user from attempted download while one download is in progress
-                ePaperDlButton.IsEnabled = false;
-                
+
+                if (_dlLinkAndFileName.Count > 0)
+                {
+                    downloader.DownloadFileAsync(new Uri(_dlLinkAndFileName[0]["dlLink"]), _dlLinkAndFileName[0]["filePathName"]);
+                    // deactivate the download button to prevent user from attempted download while one download is in progress
+                    ePaperDlButton.IsEnabled = false;
+                }
+                else MessageBox.Show(epaper.InvalidDateMsg); // shown if dates without the links are chosen for daily papers
             }
-            else
-            {
-                MessageBox.Show(epaper.InvalidDateMsg);
-            }
-            
+            else MessageBox.Show(epaper.InvalidDateMsg); // shown if incorrect day of week is chosen for weekly, monthly or bimonthly papers
+
         }
 
         // called when the UI window loads
@@ -120,15 +121,17 @@ namespace EpaperDownloader
             else if (e.Error == null) // if no error occurs
             {
                 // once the first item in the download list is downloaded
-                // download the other links in the list
+                // download the other links in the list if available
                 _dlLinkAndFileName.RemoveAt(0);
 
                 if (_dlLinkAndFileName.Count > 0)
-                //{ downloader.DownloadFileAsync(new Uri(epaper.DownloadLink[0]), epaper.PathWithFileName+"-"+epaper.DownloadLink.Count+".jpg"); }
-                { downloader.DownloadFileAsync(new Uri(_dlLinkAndFileName[0]["dlLink"]), _dlLinkAndFileName[0]["filePathName"]); }
+                {
+                    downloader.DownloadFileAsync(new Uri(_dlLinkAndFileName[0]["dlLink"]), _dlLinkAndFileName[0]["filePathName"]);
+                }
                 else
                 {
-                    if (epaper.PaperName == "nagarik")
+                    // covert images list to pdf for some epapers
+                    if (epaper.PaperName == "nagarik" || epaper.PaperName == "shukrabar" || epaper.PaperName == "republica")
                     {
                         List<string> imagePathAndFileName = new List<string>();
                         //downloadInfoLabel.Content = "Please Wait!! Generating pdf.";
@@ -158,15 +161,19 @@ namespace EpaperDownloader
                     HttpWebResponse res = (HttpWebResponse)we.Response;
                     if (res != null && res.StatusCode == HttpStatusCode.NotFound)
                     {
-                        // TODO delete the downloaded paper, which has no data
                         MessageBox.Show("404 Error: This issue of " + epaper.PaperName + "is not Available.");
                         ePaperDlButton.IsEnabled = true;
+                        // TODO delete the downloaded paper, which has no data
+                        File.Delete(_dlLinkAndFileName[0]["filePathName"]);
+
                     }
                 }
                 else
                 {
                     MessageBox.Show(e.Error.ToString()); // Handle any other error such as unspecified file path or file Name and so on.
                     ePaperDlButton.IsEnabled = true;
+                    // TODO delete the downloaded paper, which has no data
+                    File.Delete(_dlLinkAndFileName[0]["filePathName"]);
                 }
 
             }
