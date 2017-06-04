@@ -37,7 +37,10 @@ namespace EpaperDownloader
                     { "Nari", "nari"},
                     {"Nagarik", "nagarik" },
                     {"Shukrabar", "shukrabar" },
-                    {"Republica", "republica" }
+                    {"Republica", "republica" },
+                    { "Annapurna Post", "annapurnapost" },
+                    { "The Himalayan Times","thehimalayantimes" },
+                    { "Rajdhani", "rajdhani"}
                 };
 
 
@@ -108,6 +111,15 @@ namespace EpaperDownloader
                     }
                     else NagarikNewsNetworkInfo();
                     break;
+                case "rajdhani":
+                    RajdhaniInfo();
+                    break;
+                case "annapurnapost":
+                    AnnapurnaPostInfo();
+                    break;
+                case "thehimalayantimes":
+                    HimalayanTimesInfo();
+                    break;
             }
         }
 
@@ -161,7 +173,7 @@ namespace EpaperDownloader
             // download each image files in the root directory of the project
             // and later use those images to create pdf and save that pdf in the DownloadPath specified by the user
             DirectoryInfo dir = new DirectoryInfo(".\\" + PaperName);
-            dir.Create();
+            if(!dir.Exists) dir.Create();
             string path = dir + "\\" + _year + "-" + _month + "-" + _day;
 
             // scrape links to all epaper images from a webpage
@@ -186,6 +198,130 @@ namespace EpaperDownloader
                         DownloadLinkAndFileName.Add(new Dictionary<string, string> {
                             { "dlLink", linkToEpaperImages + hrefAtttr},
                             { "filePathName", path+"___"+fileNameId+".jpg"}
+                        });
+                    }
+                }
+            }
+
+        }
+
+        public void AnnapurnaPostInfo()
+        {
+            // http://annapurnapost.com/epaper/detail/387 example link that holds the link to image files in <figure> tag
+            // map the user input date to the date id like 387 in the above link
+            DateTime dateLinkedWith387id = new DateTime(2017, 06, 04);
+            TimeSpan span = IssueDate.Subtract(dateLinkedWith387id);
+            int dateDiff = (int)span.TotalDays; // dateDiff +ve if IssueDate is greater than 2017/05/27 is -ve is IssueDate is less than 2016/09/16
+
+            int dateId = (int)Math.Abs((decimal)387 + dateDiff);
+
+            string linkToEpaperImages = "http://annapurnapost.com/epaper/detail/" + dateId.ToString();
+
+            DownloadLinkAndFileName = new List<Dictionary<string, string>>();
+            // pathName,
+            // download each image files in the root directory of the project
+            // and later use those images to create pdf and save that pdf in the DownloadPath specified by the user
+            DirectoryInfo dir = new DirectoryInfo(".\\" + PaperName);
+            if (!dir.Exists) dir.Create();
+            string path = dir + "\\" + _year + "-" + _month + "-" + _day;
+            int fileNameId = 0;
+
+            // use Html agility package to extract link pdf link from <iFrame> tag 
+            HtmlWeb web = new HtmlWeb();
+            HtmlDocument doc = web.Load(linkToEpaperImages);
+
+            // select all a tags that are children of figure tag
+            var figureTag = doc.DocumentNode.SelectNodes("//figure/a");
+
+            if (figureTag != null)
+            {
+                foreach (var tag in figureTag)
+                {
+                    fileNameId++;
+                    string hrefAttr = tag.Attributes["href"].Value;
+                    DownloadLinkAndFileName.Add(new Dictionary<string, string> {
+                        { "dlLink", hrefAttr },
+                        { "filePathName", path + "___" + fileNameId + ".jpg"}
+                    });
+                    
+                }
+            }
+
+        }
+
+
+        public void HimalayanTimesInfo()
+        {
+            // http://epaper.thehimalayantimes.com/index.php?pagedate=2017-6-1 example link for epaper
+            // view source --> div with class flipbook holds all the link to epaper images in the img tags
+
+            string linkToEpaperImages = "http://epaper.thehimalayantimes.com/index.php?pagedate=" + _year + "-" + IssueDate.Month.ToString() + "-" + IssueDate.Day.ToString();
+            DownloadLinkAndFileName = new List<Dictionary<string, string>>();
+
+            // pathName,
+            // download each image files in the root directory of the project
+            // and later use those images to create pdf and save that pdf in the DownloadPath specified by the user
+            DirectoryInfo dir = new DirectoryInfo(".\\" + PaperName);
+            if(!dir.Exists) dir.Create();
+            string path = dir + "\\" + _year + "-" + _month + "-" + _day;
+            int fileNameId = 0;
+
+            // use Html agility package to extract link pdf link from <iFrame> tag 
+            HtmlWeb web = new HtmlWeb();
+            HtmlDocument doc = web.Load(linkToEpaperImages);
+            // gets all img tags that are one or more level deep desendents of the div flipbook class
+            var imgTagsInFlipbookClass = doc.DocumentNode.SelectNodes("//div[contains(concat(' ',normalize-space(@class),' '),'flipbook')]//img");
+            //var imgTagsInFlipbookClass = doc.DocumentNode.SelectNodes("//div[contains(@class,'flipbook')]");
+
+            if (imgTagsInFlipbookClass != null)
+            {
+                foreach (var tag in imgTagsInFlipbookClass)
+                {
+                    string srcAttr = tag.Attributes["src"].Value; // eg.. epaperimages//04062017//04062017-md-hr-1.jpg
+                    if (srcAttr.Substring(0).Contains("epaperimages"))
+                    {
+                        fileNameId++;
+                        DownloadLinkAndFileName.Add(new Dictionary<string, string>{
+                            { "dlLink", "http://epaper.thehimalayantimes.com/"+srcAttr },
+                            { "filePathName", path + "___" + fileNameId + ".jpg"}
+                        });
+                    }
+                }
+            }
+        }
+
+        // Rajdhani stoppped publishing epaper from 2016/09/16
+        // so we are removing this item from comboxboxItem in the UI
+        public void RajdhaniInfo()
+        {
+            // http://rajdhani.com.np/epaper/898 example link that holds the link to pdf file in <iFrame> tag
+            // map the user input date to the date id like 898 in the above link
+            DateTime dateLinkedWith898id = new DateTime(2016, 09, 16);
+            TimeSpan span = IssueDate.Subtract(dateLinkedWith898id);
+            int dateDiff = span.Days; // dateDiff +ve if IssueDate is greater than 2016/09/16 is -ve is IssueDate is less than 2016/09/16
+
+            int dateId = (int)Math.Abs((decimal)898 + dateDiff);
+
+            string linkToPdf = "http://rajdhani.com.np/epaper/" + dateId.ToString();
+
+            // use Html agility package to extract link pdf link from <iFrame> tag 
+            HtmlWeb web = new HtmlWeb();
+            HtmlDocument doc = web.Load(linkToPdf);
+            DownloadLinkAndFileName = new List<Dictionary<string, string>>();
+
+            // select all iFrame tag using Xpath
+            var iFrameTag = doc.DocumentNode.SelectNodes("//iframe");
+
+            if (iFrameTag != null)
+            {
+                foreach (var tag in iFrameTag)
+                {
+                    string srcAttr = tag.Attributes["src"].Value;
+                    if (srcAttr.Substring(0).Contains(".pdf"))
+                    {
+                        DownloadLinkAndFileName.Add(new Dictionary<string, string> {
+                            { "dlLink", srcAttr },
+                            { "filePathName", DownloadPath+"\\" + PaperName + "-" + _year + "-" + _month + "-" + _day + ".pdf"}
                         });
                     }
                 }

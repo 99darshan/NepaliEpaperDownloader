@@ -131,7 +131,7 @@ namespace EpaperDownloader
                 else
                 {
                     // covert images list to pdf for some epapers
-                    if (epaper.PaperName == "nagarik" || epaper.PaperName == "shukrabar" || epaper.PaperName == "republica")
+                    if (epaper.PaperName == "nagarik" || epaper.PaperName == "shukrabar" || epaper.PaperName == "republica" || epaper.PaperName == "annapurnapost" || epaper.PaperName == "thehimalayantimes")
                     {
                         List<string> imagePathAndFileName = new List<string>();
                         //downloadInfoLabel.Content = "Please Wait!! Generating pdf.";

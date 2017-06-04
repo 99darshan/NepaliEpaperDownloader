@@ -21,10 +21,12 @@
                 <ComboBoxItem>The Kathmandu Post</ComboBoxItem>
                 <ComboBoxItem>Nagarik</ComboBoxItem>
                 <ComboBoxItem>Republica</ComboBoxItem>
-                <ComboBoxItem>The Annapurna Post</ComboBoxItem>
+                <ComboBoxItem>Annapurna Post</ComboBoxItem>
+                <ComboBoxItem>The Himalayan Times</ComboBoxItem>
                 <ComboBoxItem>Saptahik</ComboBoxItem>
                 <ComboBoxItem>Nepal</ComboBoxItem>
                 <ComboBoxItem>Shukrabar</ComboBoxItem>
+                <!--<ComboBoxItem>Rajdhani</ComboBoxItem>-->
             </ComboBox>
 
 
