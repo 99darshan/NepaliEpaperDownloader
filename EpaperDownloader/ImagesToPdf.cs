@@ -59,6 +59,10 @@ namespace EpaperDownloader
 
             // TODO delete all the images from the dir once the pdf is created 
             // saves up the disk space
+            foreach (string imageFileName in ImageFilePath)
+            {
+                File.Delete(imageFileName);
+            }
         }
     }
 }

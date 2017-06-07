@@ -11,6 +11,7 @@ namespace EpaperDownloader
     class Epaper
     {
         // fields
+        private string _documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private string _year;
         private string _month;
         private string _monthShortName;
@@ -95,8 +96,16 @@ namespace EpaperDownloader
                     else KantipurNetworkInfo();
                     break;
                 case "nari":
-                    // TODO check date
-                    KantipurNetworkInfo();
+                    // 2017/04/14 has a issue of nari
+                    // every multiple of 15 days before and after this days should have an issue of nari
+                    DateTime dt = new DateTime(2017, 04, 14);
+                    int daysDiff = Math.Abs((int)dt.Subtract(IssueDate).TotalDays);
+                    if (daysDiff % 15 == 0) KantipurNetworkInfo();
+                    else
+                    {
+                        InvalidDateMsg = "Please Enter a valid Date! \n Nari is published every 15 days!!";
+                        IsIssueDateValid = false;
+                    }
                     break;
 
                 case "nagarik":  case "republica":
@@ -170,9 +179,9 @@ namespace EpaperDownloader
             }
 
             // pathName,
-            // download each image files in the root directory of the project
+            // download each image files in the myDocuments\paperName
             // and later use those images to create pdf and save that pdf in the DownloadPath specified by the user
-            DirectoryInfo dir = new DirectoryInfo(".\\" + PaperName);
+            DirectoryInfo dir = new DirectoryInfo(_documentsPath+"\\" + PaperName);
             if(!dir.Exists) dir.Create();
             string path = dir + "\\" + _year + "-" + _month + "-" + _day;
 
@@ -207,6 +216,9 @@ namespace EpaperDownloader
 
         public void AnnapurnaPostInfo()
         {
+            // BUG ALERT: TODO, 381 and 382 issue have the same paper for jesth 15
+            // so any dates chosen before that will not return a epaper of correct date
+            
             // http://annapurnapost.com/epaper/detail/387 example link that holds the link to image files in <figure> tag
             // map the user input date to the date id like 387 in the above link
             DateTime dateLinkedWith387id = new DateTime(2017, 06, 04);
@@ -219,9 +231,9 @@ namespace EpaperDownloader
 
             DownloadLinkAndFileName = new List<Dictionary<string, string>>();
             // pathName,
-            // download each image files in the root directory of the project
+            // download each image files in the myDocuments/Annapurnapost dir
             // and later use those images to create pdf and save that pdf in the DownloadPath specified by the user
-            DirectoryInfo dir = new DirectoryInfo(".\\" + PaperName);
+            DirectoryInfo dir = new DirectoryInfo(_documentsPath+"\\" + PaperName);
             if (!dir.Exists) dir.Create();
             string path = dir + "\\" + _year + "-" + _month + "-" + _day;
             int fileNameId = 0;
@@ -259,9 +271,9 @@ namespace EpaperDownloader
             DownloadLinkAndFileName = new List<Dictionary<string, string>>();
 
             // pathName,
-            // download each image files in the root directory of the project
+            // download each image files in the myDocuments/himalayantimes dir
             // and later use those images to create pdf and save that pdf in the DownloadPath specified by the user
-            DirectoryInfo dir = new DirectoryInfo(".\\" + PaperName);
+            DirectoryInfo dir = new DirectoryInfo(_documentsPath+"\\" + PaperName);
             if(!dir.Exists) dir.Create();
             string path = dir + "\\" + _year + "-" + _month + "-" + _day;
             int fileNameId = 0;

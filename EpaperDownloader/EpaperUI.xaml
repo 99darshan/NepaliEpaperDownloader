@@ -26,6 +26,7 @@
                 <ComboBoxItem>Saptahik</ComboBoxItem>
                 <ComboBoxItem>Nepal</ComboBoxItem>
                 <ComboBoxItem>Shukrabar</ComboBoxItem>
+                <ComboBoxItem>Nari</ComboBoxItem>
                 <!--<ComboBoxItem>Rajdhani</ComboBoxItem>-->
             </ComboBox>
 
