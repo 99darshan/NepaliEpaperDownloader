@@ -19,13 +19,13 @@
             <ComboBox x:Name="ePaperChooser" SelectedIndex="0" Padding="4">
                 <ComboBoxItem>Kantipur</ComboBoxItem>
                 <ComboBoxItem>The Kathmandu Post</ComboBoxItem>
-                <ComboBoxItem>Nagarik</ComboBoxItem>
-                <ComboBoxItem>Republica</ComboBoxItem>
-                <ComboBoxItem>Annapurna Post</ComboBoxItem>
-                <ComboBoxItem>The Himalayan Times</ComboBoxItem>
                 <ComboBoxItem>Saptahik</ComboBoxItem>
                 <ComboBoxItem>Nepal</ComboBoxItem>
+                <ComboBoxItem>Nagarik</ComboBoxItem>
+                <ComboBoxItem>Republica</ComboBoxItem>
                 <ComboBoxItem>Shukrabar</ComboBoxItem>
+                <ComboBoxItem>Annapurna Post</ComboBoxItem>
+                <ComboBoxItem>The Himalayan Times</ComboBoxItem>
                 <ComboBoxItem>Nari</ComboBoxItem>
                 <!--<ComboBoxItem>Rajdhani</ComboBoxItem>-->
             </ComboBox>

@@ -23,7 +23,7 @@ namespace EpaperDownloader
         public void GeneratePdf()
         {
 
-            // incase there is on output directory
+            // incase there is no output directory
             DirectoryInfo dir = new DirectoryInfo(EpaperInstance.DownloadPath);
             if (!dir.Exists) dir.Create();
 

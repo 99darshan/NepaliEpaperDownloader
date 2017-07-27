@@ -10,6 +10,8 @@ namespace EpaperDownloader
 {
     class Epaper
     {
+
+        #region Fields
         // fields
         private string _documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private string _year;
@@ -55,7 +57,7 @@ namespace EpaperDownloader
         public string InvalidDateMsg { get; set; } = "Sorry!! ePaper Issue is Not available for this date.";
         // stores all the links to download the pdf or images for epaper and the corresponding file name 
         public List<Dictionary<string,string>> DownloadLinkAndFileName { get; set; }
-
+#endregion 
         // constructor
         public Epaper(string paperName, DateTime issue, string path)
         {
@@ -75,6 +77,7 @@ namespace EpaperDownloader
             switch (PaperName)
             {
                 case "kantipur": case "the-kathmandu-post":
+                case "nari":
                     KantipurNetworkInfo();
                     break;
 
@@ -95,18 +98,18 @@ namespace EpaperDownloader
                     }
                     else KantipurNetworkInfo();
                     break;
-                case "nari":
-                    // 2017/04/14 has a issue of nari
-                    // every multiple of 15 days before and after this days should have an issue of nari
-                    DateTime dt = new DateTime(2017, 04, 14);
-                    int daysDiff = Math.Abs((int)dt.Subtract(IssueDate).TotalDays);
-                    if (daysDiff % 15 == 0) KantipurNetworkInfo();
-                    else
-                    {
-                        InvalidDateMsg = "Please Enter a valid Date! \n Nari is published every 15 days!!";
-                        IsIssueDateValid = false;
-                    }
-                    break;
+                //case "nari":
+                //    // 2017/04/14 has a issue of nari
+                //    // every multiple of 15 days before and after this days should have an issue of nari
+                //    DateTime dt = new DateTime(2017, 04, 14);
+                //    int daysDiff = Math.Abs((int)dt.Subtract(IssueDate).TotalDays);
+                //    if (daysDiff % 15 == 0) KantipurNetworkInfo();
+                //    else
+                //    {
+                //        InvalidDateMsg = "Please Enter a valid Date! \n Nari is published every 15 days!!";
+                //        IsIssueDateValid = false;
+                //    }
+                //    break;
 
                 case "nagarik":  case "republica":
                     NagarikNewsNetworkInfo();
@@ -132,6 +135,7 @@ namespace EpaperDownloader
             }
         }
 
+#region download kantipur Network
         // Kantipur Network Papers kantipur, ktm post, nepal, nari, saptahik
         public void KantipurNetworkInfo()
         {
@@ -147,11 +151,16 @@ namespace EpaperDownloader
             });
 
         }
+        #endregion
 
+#region download Nagarik Network papers
         // Papers of Nagrik News Network nagarik, republica, shukrabar weekly
         public void NagarikNewsNetworkInfo()
         {
+            
             string linkToEpaperImages="";
+            // Handles use of july instead of jul in the link
+            if (_month == "07") _monthShortName = "July";
             if (PaperName == "nagarik" || PaperName == "shukrabar")
             {
                 // change numbers for 01 to get full res image for other pages
@@ -213,7 +222,9 @@ namespace EpaperDownloader
             }
 
         }
+        #endregion
 
+#region download Annapurna Network papers
         public void AnnapurnaPostInfo()
         {
             // BUG ALERT: TODO, 381 and 382 issue have the same paper for jesth 15
@@ -221,6 +232,7 @@ namespace EpaperDownloader
             
             // http://annapurnapost.com/epaper/detail/387 example link that holds the link to image files in <figure> tag
             // map the user input date to the date id like 387 in the above link
+            // 2017/06/14 has the date id of 387, known by manual checking of above link
             DateTime dateLinkedWith387id = new DateTime(2017, 06, 04);
             TimeSpan span = IssueDate.Subtract(dateLinkedWith387id);
             int dateDiff = (int)span.TotalDays; // dateDiff +ve if IssueDate is greater than 2017/05/27 is -ve is IssueDate is less than 2016/09/16
@@ -265,7 +277,10 @@ namespace EpaperDownloader
         public void HimalayanTimesInfo()
         {
             // http://epaper.thehimalayantimes.com/index.php?pagedate=2017-6-1 example link for epaper
-            // view source --> div with class flipbook holds all the link to epaper images in the img tags
+            // view source --> div with class flipbook holds all the link to epaper images in the img tags 
+            // ^^ changed to below
+            // get links of all the images for an isuue in low res
+            // it is in pagescrollThumb class
 
             string linkToEpaperImages = "http://epaper.thehimalayantimes.com/index.php?pagedate=" + _year + "-" + IssueDate.Month.ToString() + "-" + IssueDate.Day.ToString();
             DownloadLinkAndFileName = new List<Dictionary<string, string>>();
@@ -281,27 +296,34 @@ namespace EpaperDownloader
             // use Html agility package to extract link pdf link from <iFrame> tag 
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = web.Load(linkToEpaperImages);
-            // gets all img tags that are one or more level deep desendents of the div flipbook class
-            var imgTagsInFlipbookClass = doc.DocumentNode.SelectNodes("//div[contains(concat(' ',normalize-space(@class),' '),'flipbook')]//img");
-            //var imgTagsInFlipbookClass = doc.DocumentNode.SelectNodes("//div[contains(@class,'flipbook')]");
+            
+            // get links of all the images for an isuue in low res
+            // it is in pagescrollThumb class
+            var imgTagsInPagescrollThumbClass = doc.DocumentNode.SelectNodes("//div[contains(concat(' ',normalize-space(@class),' '),'pagescrollThumb')]//img");
 
-            if (imgTagsInFlipbookClass != null)
+            //var imgTagsInFlipbookClass = doc.DocumentNode.SelectNodes("//div[contains(@class,'flipbook')]//img");
+
+            if (imgTagsInPagescrollThumbClass != null)
             {
-                foreach (var tag in imgTagsInFlipbookClass)
+                foreach (var tag in imgTagsInPagescrollThumbClass)
                 {
-                    string srcAttr = tag.Attributes["src"].Value; // eg.. epaperimages//04062017//04062017-md-hr-1.jpg
-                    if (srcAttr.Substring(0).Contains("epaperimages"))
+                    string srcAttr = tag.Attributes["src"].Value; // eg.. epaperimages//04062017//04062017-md-hr-1ss.jpg
+                    // remove the "ss" epaperimages//04062017//04062017-md-hr-1ss.jpg to get the high res image
+                    string highResImg = srcAttr.Remove(srcAttr.Length - 6, 2);
+                    if (highResImg.Substring(0).Contains("epaperimages"))
                     {
                         fileNameId++;
                         DownloadLinkAndFileName.Add(new Dictionary<string, string>{
-                            { "dlLink", "http://epaper.thehimalayantimes.com/"+srcAttr },
+                            { "dlLink", "http://epaper.thehimalayantimes.com/"+highResImg },
                             { "filePathName", path + "___" + fileNameId + ".jpg"}
                         });
                     }
                 }
             }
         }
+        #endregion
 
+#region download rajhdani ePaper, not shown in the dropDown since they don't provide recent date epapers
         // Rajdhani stoppped publishing epaper from 2016/09/16
         // so we are removing this item from comboxboxItem in the UI
         public void RajdhaniInfo()
@@ -340,6 +362,7 @@ namespace EpaperDownloader
             }
 
         }
+#endregion 
 
     }
 }

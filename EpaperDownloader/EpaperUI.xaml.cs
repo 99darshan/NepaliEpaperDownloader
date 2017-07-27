@@ -161,7 +161,7 @@ namespace EpaperDownloader
                     HttpWebResponse res = (HttpWebResponse)we.Response;
                     if (res != null && res.StatusCode == HttpStatusCode.NotFound)
                     {
-                        MessageBox.Show("404 Error: This issue of " + epaper.PaperName + "is not Available.");
+                        MessageBox.Show("404 Error: This issue of " + epaper.PaperName + " is not Available.");
                         ePaperDlButton.IsEnabled = true;
                         // TODO delete the downloaded paper, which has no data
                         File.Delete(_dlLinkAndFileName[0]["filePathName"]);
