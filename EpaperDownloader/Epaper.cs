@@ -99,6 +99,7 @@ namespace EpaperDownloader
                     else KantipurNetworkInfo();
                     break;
                 //case "nari":
+                // NOTE: this code breaks becuase nari doesn't have cosistent publications
                 //    // 2017/04/14 has a issue of nari
                 //    // every multiple of 15 days before and after this days should have an issue of nari
                 //    DateTime dt = new DateTime(2017, 04, 14);
@@ -127,7 +128,7 @@ namespace EpaperDownloader
                     RajdhaniInfo();
                     break;
                 case "annapurnapost":
-                    AnnapurnaPostInfo();
+                    //AnnapurnaPostInfo();
                     break;
                 case "thehimalayantimes":
                     HimalayanTimesInfo();
@@ -224,54 +225,71 @@ namespace EpaperDownloader
         }
         #endregion
 
-#region download Annapurna Network papers
-        public void AnnapurnaPostInfo()
-        {
-            // BUG ALERT: TODO, 381 and 382 issue have the same paper for jesth 15
-            // so any dates chosen before that will not return a epaper of correct date
-            
-            // http://annapurnapost.com/epaper/detail/387 example link that holds the link to image files in <figure> tag
-            // map the user input date to the date id like 387 in the above link
-            // 2017/06/14 has the date id of 387, known by manual checking of above link
-            DateTime dateLinkedWith387id = new DateTime(2017, 06, 04);
-            TimeSpan span = IssueDate.Subtract(dateLinkedWith387id);
-            int dateDiff = (int)span.TotalDays; // dateDiff +ve if IssueDate is greater than 2017/05/27 is -ve is IssueDate is less than 2016/09/16
+        #region download Annapurna Network papers
 
-            int dateId = (int)Math.Abs((decimal)387 + dateDiff);
+        /**
+         * 
+         * NOTE: the below code for annapurna post doesn't work swiftly 
+         * 
+         * can't map the selected date to the date id
+         * http://annapurnapost.com/epaper/detail/387
+         * 
+         * in above link the date 2017, 06, 04 should map to id like 387
+         * 
+         * TODO: think how to map date to date id to get the link despite of inconsistancy in annapurna posts uploads
+         * 
+         * 
+         */
 
-            string linkToEpaperImages = "http://annapurnapost.com/epaper/detail/" + dateId.ToString();
 
-            DownloadLinkAndFileName = new List<Dictionary<string, string>>();
-            // pathName,
-            // download each image files in the myDocuments/Annapurnapost dir
-            // and later use those images to create pdf and save that pdf in the DownloadPath specified by the user
-            DirectoryInfo dir = new DirectoryInfo(_documentsPath+"\\" + PaperName);
-            if (!dir.Exists) dir.Create();
-            string path = dir + "\\" + _year + "-" + _month + "-" + _day;
-            int fileNameId = 0;
 
-            // use Html agility package to extract link pdf link from <iFrame> tag 
-            HtmlWeb web = new HtmlWeb();
-            HtmlDocument doc = web.Load(linkToEpaperImages);
+        //public void AnnapurnaPostInfo()
+        //{
+        //    // BUG ALERT: TODO, 381 and 382 issue have the same paper for jesth 15
+        //    // so any dates chosen before that will not return a epaper of correct date
 
-            // select all a tags that are children of figure tag
-            var figureTag = doc.DocumentNode.SelectNodes("//figure/a");
+        //    // http://annapurnapost.com/epaper/detail/387 example link that holds the link to image files in <figure> tag
+        //    // map the user input date to the date id like 387 in the above link
+        //    // 2017/06/14 has the date id of 387, known by manual checking of above link
+        //    DateTime dateLinkedWith387id = new DateTime(2017, 06, 04);
+        //    TimeSpan span = IssueDate.Subtract(dateLinkedWith387id);
+        //    int dateDiff = (int)span.TotalDays; // dateDiff +ve if IssueDate is greater than 2017/05/27 is -ve is IssueDate is less than 2016/09/16
 
-            if (figureTag != null)
-            {
-                foreach (var tag in figureTag)
-                {
-                    fileNameId++;
-                    string hrefAttr = tag.Attributes["href"].Value;
-                    DownloadLinkAndFileName.Add(new Dictionary<string, string> {
-                        { "dlLink", hrefAttr },
-                        { "filePathName", path + "___" + fileNameId + ".jpg"}
-                    });
-                    
-                }
-            }
+        //    int dateId = (int)Math.Abs((decimal)387 + dateDiff);
 
-        }
+        //    string linkToEpaperImages = "http://annapurnapost.com/epaper/detail/" + dateId.ToString();
+
+        //    DownloadLinkAndFileName = new List<Dictionary<string, string>>();
+        //    // pathName,
+        //    // download each image files in the myDocuments/Annapurnapost dir
+        //    // and later use those images to create pdf and save that pdf in the DownloadPath specified by the user
+        //    DirectoryInfo dir = new DirectoryInfo(_documentsPath+"\\" + PaperName);
+        //    if (!dir.Exists) dir.Create();
+        //    string path = dir + "\\" + _year + "-" + _month + "-" + _day;
+        //    int fileNameId = 0;
+
+        //    // use Html agility package to extract link pdf link from <iFrame> tag 
+        //    HtmlWeb web = new HtmlWeb();
+        //    HtmlDocument doc = web.Load(linkToEpaperImages);
+
+        //    // select all a tags that are children of figure tag
+        //    var figureTag = doc.DocumentNode.SelectNodes("//figure/a");
+
+        //    if (figureTag != null)
+        //    {
+        //        foreach (var tag in figureTag)
+        //        {
+        //            fileNameId++;
+        //            string hrefAttr = tag.Attributes["href"].Value;
+        //            DownloadLinkAndFileName.Add(new Dictionary<string, string> {
+        //                { "dlLink", hrefAttr },
+        //                { "filePathName", path + "___" + fileNameId + ".jpg"}
+        //            });
+
+        //        }
+        //    }
+
+        //}
 
 
         public void HimalayanTimesInfo()
