@@ -161,7 +161,9 @@ namespace EpaperDownloader
             
             string linkToEpaperImages="";
             // Handles use of july instead of jul in the link
+            // The publisher used August instead of Aug in the link, handle that as well
             if (_month == "07") _monthShortName = "July";
+            if (_month == "08") _monthShortName = "August";
             if (PaperName == "nagarik" || PaperName == "shukrabar")
             {
                 // change numbers for 01 to get full res image for other pages
