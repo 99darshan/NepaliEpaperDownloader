@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EpaperDownloader"
         mc:Ignorable="d"
-        Title="Nepali ePaper Downloader" Height="520" Width="400">
+        Title="Nepali ePaper Downloader" Height="540" Width="400">
 
     <Border Padding="20">
         
@@ -56,6 +56,13 @@
             
             <!-- Download Informatio Label -->
             <Label x:Name="downloadInfoLabel"  Background="CadetBlue" Foreground="WhiteSmoke" Height="30" FontWeight="Bold" Padding="5" Margin="30,10,30,10"/>
+
+            <TextBlock HorizontalAlignment="Center">           
+                <Hyperlink NavigateUri="https://github.com/99darshan" RequestNavigate="Hyperlink_RequestNavigate">
+                    Developed By: 99darshan
+                </Hyperlink>    
+            </TextBlock>
+
         </StackPanel>
         
     </Border>

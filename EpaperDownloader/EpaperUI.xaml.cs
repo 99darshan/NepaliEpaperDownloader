@@ -7,6 +7,8 @@ using System.Windows;
 using System.Net;
 using System.IO;
 using System.ComponentModel;
+using System.Windows.Navigation;
+using System.Diagnostics;
 
 namespace EpaperDownloader
 {
@@ -36,9 +38,12 @@ namespace EpaperDownloader
 
             // call EpaperUI_Loaded function everytime the windows Loaded Event is triggered
             this.Loaded += new RoutedEventHandler(EpaperUI_Loaded);
-         
+
+  
+
 
         }
+
 
         private void browseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -198,6 +203,13 @@ namespace EpaperDownloader
         private void downloadProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
 
+        }
+
+        // opens browser for the navigation Link for developed by text
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
         }
     }
 }
