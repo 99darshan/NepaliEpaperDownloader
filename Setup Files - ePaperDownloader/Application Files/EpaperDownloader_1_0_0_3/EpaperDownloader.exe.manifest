@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="EpaperDownloader.exe" version="1.0.0.3" publicKeyToken="29cf5ea3f207a478" language="neutral" processorArchitecture="msil" type="win32" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="EpaperDownloader" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="EpaperDownloader.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="EpaperDownloader.exe" size="25592">
+      <assemblyIdentity name="EpaperDownloader" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>/DamnuSbxzbtDgwqD5Oc95i2LA9uZILkv3GGWw9t6p4=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="HtmlAgilityPack.dll" size="132608">
+      <assemblyIdentity name="HtmlAgilityPack" version="1.4.9.5" publicKeyToken="BD319B19EAF3B43A" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>0wRkMMxsmVD2JVWyS1z4euhLiiZXxjJ8Akk2nr5sNLE=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="itextsharp.dll" size="4063232">
+      <assemblyIdentity name="itextsharp" version="5.5.11.0" publicKeyToken="8354AE6D2174DDCA" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>jywYC4M6t+Nvv2nv0ei996/eJ3HE04faLQlSKbTym9M=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="EpaperDownloader.exe.config" size="189">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>6N7MliNbVJSIAIPrecIshMbZ7zEoKLr5SQvud4LDUOw=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=DESKTOP-90LHMOI\99darshan" issuerKeyHash="9bd67e21e05722988484d7c8416a0fb2b7dd3bf6" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>PDT5+5y/k2cmdsqIkNF8MiDzUb/htuaFt9udKBqScLI=</DigestValue></Reference></SignedInfo><SignatureValue>CTJ3mHzmPvjxfxQI5KKM0K3VQEtYILa5+YJvQrT+SVFgUzqyZ9JWe+1yNWIrl6DivS3O9Vkd8NSfweChTJjOwprdfHfwR8uy/YsjCSRvmtf9jIZB+OgTfjc2wHJM7z/WqVsFoJsjRxbVhzgNONhQY9IWGHOgNIjEo2YBzWAJ+MU=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>tFyJRc0LXCOpz+O9KQcwaRdsjeZsoj8Zbb0cZ/uzho5WoYz0mKEq4vAUcUwkmaN4jwlE8+cJ/vovJjuigFpTRSxEcouou/gs3yW8YogPFFL4TpDO7zLIKeIiL8sW+FdiOQpf96lDif01O/XEjmAC2AixnSSvKTPz+dQ8X3l97kU=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="b270921a289ddbb785e6b6e1bf51f320327cd19088ca76266793bf9cfbf9343c" Description="" Url=""><as:assemblyIdentity name="EpaperDownloader.exe" version="1.0.0.3" publicKeyToken="29cf5ea3f207a478" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=DESKTOP-90LHMOI\99darshan</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>bervrHj1TdfGSZYJfd/ndRF9B4j9/vz4u9phrd8hEzc=</DigestValue></Reference></SignedInfo><SignatureValue>XvzjEgqSQzav7VyOmbcPf6qB0g3zslehGvW5Hdj2MMQGt45cTdBAP9ZTQkCrclYbYz72W2SuFyUoA6zIu2zeDfIbL3eaCnshE6vfD7EwOoEFFlDdAmX04jogbnoe0uqAoDAdWxfopQ74sS+mMF8hb700fG5xPWBkU0bO9puqr+w=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>tFyJRc0LXCOpz+O9KQcwaRdsjeZsoj8Zbb0cZ/uzho5WoYz0mKEq4vAUcUwkmaN4jwlE8+cJ/vovJjuigFpTRSxEcouou/gs3yW8YogPFFL4TpDO7zLIKeIiL8sW+FdiOQpf96lDif01O/XEjmAC2AixnSSvKTPz+dQ8X3l97kU=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB/TCCAWagAwIBAgIQaHcWroM95alB+vlp43FIGzANBgkqhkiG9w0BAQsFADA9MTswOQYDVQQDHjIARABFAFMASwBUAE8AUAAtADkAMABMAEgATQBPAEkAXAA5ADkAZABhAHIAcwBoAGEAbjAeFw0xNzA3MjkwMzM3NDdaFw0xODA3MjkwOTM3NDdaMD0xOzA5BgNVBAMeMgBEAEUAUwBLAFQATwBQAC0AOQAwAEwASABNAE8ASQBcADkAOQBkAGEAcgBzAGgAYQBuMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0XIlFzQtcI6nP470pBzBpF2yN5myiPxltvRxn+7OGjlahjPSYoSri8BRxTCSZo3iPCUTz5wn++i8mO6KAWlNFLERyi6i7+CzfJbxiiA8UUvhOkM7vMsgp4iIvyxb4V2I5Cl/3qUOJ/TU79cSOYALYCLGdJK8pM/P51DxfeX3uRQIDAQABMA0GCSqGSIb3DQEBCwUAA4GBADMn5+K2Ogi8mLz6+xM5n6sSHdGb/k6SFUqjn/4xWa1FZKUeNgS347i+MuNKmDVv1kmwI4Dm2rz/H3cIikrYWy/M1T4t8iSi6rGjht9xN1ccvQ6VxihTmPxFryV4OSNUErA+XZ88OmwITQTMA/iqy4d/kZxjE8qSeCptdnmsKwyn</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
