@@ -1,5 +1,7 @@
 # Nepali Epaper Downloader
 
+# NOTE: This project is no longer maintained. Might not work with the latest changes made by the newpaper sites. 
+
 ###### Nepali Epaper Downloader is a simple windows GUI application which lets you download pdf version of major Nepali Newspapers. Currently this application lets you download following Newspapers:
 
 1. Kantipur
